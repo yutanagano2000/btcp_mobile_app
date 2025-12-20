@@ -8,32 +8,33 @@
 import SwiftUI
 
 struct MainTabBar: View {
+    // 親に選択結果を伝える
+    var onSelect: (MainTab) -> Void = { _ in }
+    // 選択中表示のため（色や太さを変えたい場合に利用）
+    var selectedTab: MainTab? = nil
+
     var body: some View {
         ZStack {
-//            #if DEBUG
-//            Image("Home_ref")
-//                .resizable()
-//                .scaledToFill()
-//                .ignoresSafeArea()
-//                .frame(height:85, alignment: .bottom)
-//                .opacity(0.8)
-//            #endif
-
             HStack(spacing: 54) {
                 ForEach(MainTab.allCases, id: \.self) { tab in
-                    VStack(spacing: 5) {
-                        Image(systemName: tab.iconName)
-                            .font(.system(size: 18))
-                            .foregroundStyle(Color.white)
-                        Text(tab.rawValue)
-                            .font(.system(size: 13))
-                            .foregroundStyle(Color.white)
+                    Button {
+                        onSelect(tab)
+                    } label: {
+                        VStack(spacing: 5) {
+                            Image(systemName: tab.iconName)
+                                .font(.system(size: 18))
+                                .foregroundStyle(Color.white.opacity(selectedTab == tab ? 1.0 : 0.7))
+                            Text(tab.rawValue)
+                                .font(.system(size: 13))
+                                .foregroundStyle(Color.white.opacity(selectedTab == tab ? 1.0 : 0.7))
+                        }
+                        .contentShape(Rectangle())
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 21.5)
-            .padding(.bottom, 14)
             .background(Color(red:22/255, green: 20/255, blue: 21/255))
         }
     }

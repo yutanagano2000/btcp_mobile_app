@@ -8,28 +8,35 @@
 import SwiftUI
 
 struct HomeHaderView: View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View{
-        ZStack {
-//            #if DEBUG
-//            VStack {
-//                Spacer()
-//                Image("Home_ref")
-//                    .resizable()
-//                    .scaledToFill()
-//                    .frame(height: 85, alignment: .top)
-//                Spacer()
-//            }
-//            .ignoresSafeArea()
-//            #endif
-            HStack {
-                Image("btcp_logo")
-                Spacer()
-                Image(systemName: "bell")
-                    .foregroundStyle(Color(red:69/255, green: 69/255, blue: 69/255))
+        NavigationStack {
+            ZStack {
+                //            #if DEBUG
+                //            VStack {
+                //                Spacer()
+                //                Image("Home_ref")
+                //                    .resizable()
+                //                    .scaledToFill()
+                //                    .frame(height: 85, alignment: .top)
+                //                Spacer()
+                //            }
+                //            .ignoresSafeArea()
+                //            #endif
+                HStack {
+                    Image("btcp_logo")
+                    Spacer()
+                    NavigationLink{
+                        NotificationView()
+                    } label: {
+                        Image(systemName: "bell")
+                            .foregroundStyle(Color(red:69/255, green: 69/255, blue: 69/255))
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.trailing,7)
+                .padding(.top, 70)
             }
-            .padding(.horizontal, 8)
-            .padding(.trailing,7)
-            .padding(.top, 85)
         }
     }
 }
