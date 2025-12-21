@@ -10,6 +10,7 @@ struct LoginView: View {
     private let headerHeigth: CGFloat = 120
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var loginErrorMessage: String?
 
     // Appファイルで環境注入したAuthManagerを取り出す
     @EnvironmentObject var authManager: AuthManager
@@ -25,6 +26,22 @@ struct LoginView: View {
                         .foregroundStyle(Color.gray)
                     TextField("メールアドレス", text: $email)
                         .textContentType(.emailAddress)
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        // メールアドレスの@を入力するために追加
+                        .autocorrectionDisabled(true)
+                        .padding(.vertical, 18)
+                }
+                .padding(.leading, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 7)
+                        .stroke(.black, lineWidth: 0.4)
+                )
+                HStack(spacing: 12) {
+                    Image(systemName: "lock")
+                        .foregroundStyle(Color.gray)
+                    SecureField("パスワード", text: $password)
+                        .textContentType(.password)
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
                         .padding(.vertical, 18)
@@ -43,8 +60,10 @@ struct LoginView: View {
                 }
 
                 Button {
-                    // ログインボタンを押下することでauthManagerのログイン処理を呼び出す
-                    authManager.login()
+                    //ログインボタンを押下することでauthManagerのログイン処理を呼び出す
+                    Task {
+                        await authManager.login(email: email, password: password)
+                    }
                 } label: {
                     Text("ログイン")
                         .padding()
