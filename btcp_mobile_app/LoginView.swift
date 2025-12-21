@@ -6,8 +6,8 @@
 //
 import SwiftUI
 
-struct LoginFrontScreen: View {
-    private let headerHeigth : CGFloat = 100
+struct LoginView: View {
+    private let headerHeigth: CGFloat = 120
     @State private var email: String = ""
     @State private var password: String = ""
 
@@ -23,7 +23,7 @@ struct LoginFrontScreen: View {
                 HStack(spacing: 12) {
                     Image(systemName: "envelope")
                         .foregroundStyle(Color.gray)
-                    TextField("メールアドレス", text:$email)
+                    TextField("メールアドレス", text: $email)
                         .textContentType(.emailAddress)
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
@@ -35,14 +35,14 @@ struct LoginFrontScreen: View {
                         .stroke(.black, lineWidth: 0.4)
                 )
 
-                HStack{
+                HStack {
                     Spacer()
                     Text("ログインでお困りの方")
                         .font(.system(size: 16))
                         .foregroundStyle(Color.gray)
                 }
 
-                Button{
+                Button {
                     // ここで認証処理を行い、成功したら onLogin()
                     onLogin()
                 } label: {
@@ -55,7 +55,7 @@ struct LoginFrontScreen: View {
                 }
                 .buttonStyle(.plain)
 
-                VStack(spacing: 20){
+                VStack(spacing: 20) {
                     Image(systemName: "faceid")
                         .font(.system(size: 70))
                         .fontWeight(.thin)
@@ -74,5 +74,5 @@ struct LoginFrontScreen: View {
 
 #Preview {
     // プレビュー用に onLogin は空のままでOK
-    LoginFrontScreen()
+    LoginView()
 }

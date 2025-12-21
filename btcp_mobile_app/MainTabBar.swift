@@ -35,7 +35,7 @@ struct MainTabBar: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 21.5)
-            .background(Color(red:22/255, green: 20/255, blue: 21/255))
+            .background(Color(red: 22 / 255, green: 20 / 255, blue: 21 / 255))
         }
     }
 }

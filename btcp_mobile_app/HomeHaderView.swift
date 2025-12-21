@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeHaderView: View {
     @Environment(\.dismiss) private var dismiss
-    var body: some View{
+    var body: some View {
         NavigationStack {
             ZStack {
                 //            #if DEBUG
@@ -26,15 +26,15 @@ struct HomeHaderView: View {
                 HStack {
                     Image("btcp_logo")
                     Spacer()
-                    NavigationLink{
+                    NavigationLink {
                         NotificationView()
                     } label: {
                         Image(systemName: "bell")
-                            .foregroundStyle(Color(red:69/255, green: 69/255, blue: 69/255))
+                            .foregroundStyle(Color(red: 69 / 255, green: 69 / 255, blue: 69 / 255))
                     }
                 }
                 .padding(.horizontal, 8)
-                .padding(.trailing,7)
+                .padding(.trailing, 7)
                 .padding(.top, 70)
             }
         }

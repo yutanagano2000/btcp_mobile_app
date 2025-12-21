@@ -13,16 +13,16 @@ struct ColorThemeView: View {
     @State private var isOn2 = false
     @State private var isOn3 = true
     @Environment(\.dismiss) private var dismiss
-    
-    var body: some View{
+
+    var body: some View {
         NavigationStack {
-            ZStack{
+            ZStack {
                 //            Image("CardGroup_ref")
                 //                .resizable()
                 //                .opacity(0.5)
-                VStack(spacing:18){
+                VStack(spacing: 18) {
                     Color.clear.frame(height: headerHeight)
-                    HStack(spacing: 8){
+                    HStack(spacing: 8) {
                         Button(action: { dismiss() }) {
                             HStack(spacing: 6) {
                                 Image(systemName: "chevron.left")
@@ -32,22 +32,22 @@ struct ColorThemeView: View {
                         }
                         Spacer()
                     }
-                    VStack(spacing: 32){
+                    VStack(spacing: 32) {
                         HStack {
                             Text("システムデフォルト")
                                 .foregroundStyle(Color.white)
                                 .fontWeight(.light)
                             Spacer()
                             Image(systemName: "checkmark")
-                                .foregroundStyle(Color(red:60/255, green: 184/255, blue: 230/255))
+                                .foregroundStyle(Color(red: 60 / 255, green: 184 / 255, blue: 230 / 255))
                         }
-                        HStack{
+                        HStack {
                             Text("ライトモード")
                                 .foregroundStyle(Color.white)
                                 .fontWeight(.light)
                             Spacer()
                         }
-                        HStack{
+                        HStack {
                             Text("ダークモード")
                                 .foregroundStyle(Color.white)
                                 .fontWeight(.light)
@@ -58,14 +58,13 @@ struct ColorThemeView: View {
                     .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                            .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                     )
-                    
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .background(Color(red:28/255, green: 26/255, blue: 27/255))
+            .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
             .ignoresSafeArea()
             .navigationBarBackButtonHidden(true)
         }

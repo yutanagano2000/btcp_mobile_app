@@ -19,12 +19,12 @@ struct AllCardsInformationView: View {
     @State var searchText: String = ""
     @FocusState var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
-    
-    var body: some View{
-        ZStack{
-            VStack(spacing:20){
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 20) {
                 Color.clear.frame(height: headerHeight)
-                HStack{
+                HStack {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(Color.white)
@@ -33,8 +33,8 @@ struct AllCardsInformationView: View {
                     .buttonStyle(.plain)
                     Spacer()
                 }
-                
-                HStack(spacing: 20){
+
+                HStack(spacing: 20) {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color.gray)
                     TextField(
@@ -50,14 +50,14 @@ struct AllCardsInformationView: View {
                 .padding(.vertical, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                        .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                 )
                 .focused($isFocused)
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .background(Color(red:28/255, green: 26/255, blue: 27/255))
+        .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true) // ← デフォルトの戻るボタンを非表示
     }

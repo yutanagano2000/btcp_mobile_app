@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct BadgeStyle{
+struct BadgeStyle {
     let text: LocalizedStringKey
     let foreground: Color
     let background: Color

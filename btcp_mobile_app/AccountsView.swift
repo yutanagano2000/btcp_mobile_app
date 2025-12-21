@@ -30,96 +30,92 @@ struct AccountsView: View {
                             HStack {
                                 Image(systemName: "envelope")
                                 Spacer()
-                                Text(verbatim:"yuta.nagano2000@gmail.com")
-
+                                Text(verbatim: "yuta.nagano2000@gmail.com")
                             }
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
-                        
+
                         VStack {
                             HStack {
                                 Text("カードグループ設定")
                                 Spacer()
                                 NavigationLink {
                                     CardGroupSettingView()
-                                } label:{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
                         VStack {
                             HStack {
                                 Text("アプリ設定")
                                 Spacer()
                                 NavigationLink {
-                                   AppSettingView()
-                                } label:{
+                                    AppSettingView()
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
-                        
+
                         VStack(spacing: 40) {
                             HStack {
                                 Text("よくある質問")
                                 Spacer()
                                 NavigationLink {
                                     Text("よくある質問画面")
-                                } label:{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
                             HStack {
                                 Text("アプリ利用規約")
                                 Spacer()
-                                NavigationLink{
+                                NavigationLink {
                                     Text("アプリ利用規約画面")
-                                } label :{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
                             HStack {
                                 Text("その他の利用規約")
                                 Spacer()
-                                NavigationLink{
+                                NavigationLink {
                                     Text("その他の利用規約画面")
-                                } label :{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
                             HStack {
                                 Text("プライバシーポリシー")
                                 Spacer()
-                                NavigationLink{
+                                NavigationLink {
                                     Text("プライバシーポリシー画面")
-                                } label :{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
-                        
+
                         VStack(spacing: 40) {
                             HStack {
                                 Text("バージョン")
@@ -129,20 +125,19 @@ struct AccountsView: View {
                             HStack {
                                 Text("ソフトウェア・ライセンス")
                                 Spacer()
-                                NavigationLink{
+                                NavigationLink {
                                     Text("ソフトウェアライセンス画面")
-                                } label :{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                 }
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
-                        VStack() {
+                        VStack {
                             HStack {
                                 Image(systemName: "document.on.document")
                                 VStack(alignment: .leading, spacing: 10) {
@@ -152,40 +147,33 @@ struct AccountsView: View {
                                         .foregroundStyle(Color.gray)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
-            
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
                         VStack {
                             HStack {
                                 Text("ログアウト")
-                                    .foregroundStyle(Color(red:255/255, green: 107/255, blue: 77/255))
+                                    .foregroundStyle(Color(red: 255 / 255, green: 107 / 255, blue: 77 / 255))
                                 Spacer()
                             }
-                            
                         }
                         .padding()
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
-                        .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
-                        
                     }
                     .padding()
                     .padding(.bottom, 60)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 }
             }
-            .background(Color(red: 28/255, green: 26/255, blue: 27/255))
+            .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
             // .ignoresSafeArea()
-
         }
     }
 }

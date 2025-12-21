@@ -12,15 +12,15 @@ struct CardGroupSettingView: View {
     @State var searchText: String = ""
     @FocusState var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
-    
-    var body: some View{
-        ZStack{
+
+    var body: some View {
+        ZStack {
 //            Image("CardGroup_ref")
 //                .resizable()
 //                .opacity(0.5)
-            VStack(spacing:18){
+            VStack(spacing: 18) {
                 Color.clear.frame(height: headerHeight)
-                HStack(spacing: 8){
+                HStack(spacing: 8) {
                     Button(action: { dismiss() }) {
                         HStack(spacing: 6) {
                             Image(systemName: "chevron.left")
@@ -36,10 +36,10 @@ struct CardGroupSettingView: View {
                     Spacer()
                     Image(systemName: "plus")
                         .font(.system(size: 25, weight: .light))
-                        .foregroundStyle(Color(red:17/255, green: 79/255, blue: 86/255))
+                        .foregroundStyle(Color(red: 17 / 255, green: 79 / 255, blue: 86 / 255))
                 }
-                
-                HStack(spacing: 20){
+
+                HStack(spacing: 20) {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color.gray)
                     TextField(
@@ -55,10 +55,10 @@ struct CardGroupSettingView: View {
                 .padding(.vertical, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                        .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                 )
                 .focused($isFocused)
-                
+
                 VStack {
                     Text("該当するグループがありません")
                         .font(.system(size: 15))
@@ -69,17 +69,15 @@ struct CardGroupSettingView: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                        .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                 )
-               
-                
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .background(Color(red:28/255, green: 26/255, blue: 27/255))
+        .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
         .ignoresSafeArea()
-        .navigationBarBackButtonHidden(true) 
+        .navigationBarBackButtonHidden(true)
     }
 }
 

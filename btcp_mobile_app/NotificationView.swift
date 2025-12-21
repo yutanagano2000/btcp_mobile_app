@@ -7,23 +7,24 @@
 import SwiftUI
 
 struct NotificationView: View {
-    enum Tab: String, CaseIterable{
+    enum Tab: String, CaseIterable {
         case message = "メッセージ",
-        history = "通知履歴"
+             history = "通知履歴"
     }
+
     // 暫定のヘッダー高さ（HomeHaderViewの見た目に合わせて調整）
     private let headerHeight: CGFloat = 28
     @State var searchText: String = ""
     @FocusState var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @State private var tab: Tab = .message
-    
-    var body: some View{
-        ZStack{
+
+    var body: some View {
+        ZStack {
 //            Image("CardGroup_ref")
 //                .resizable()
 //                .opacity(0.5)
-            VStack(spacing:18){
+            VStack(spacing: 18) {
                 Color.clear.frame(height: headerHeight)
                 header
                 tabBar
@@ -33,12 +34,13 @@ struct NotificationView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .background(Color(red:28/255, green: 26/255, blue: 27/255))
+        .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
     }
+
     private var header: some View {
-        HStack(spacing: 30){
+        HStack(spacing: 30) {
             Button(action: { dismiss() }) {
                 HStack(spacing: 6) {
                     Image(systemName: "chevron.left")
@@ -51,16 +53,17 @@ struct NotificationView: View {
                 .font(.system(size: 28))
                 .fontWeight(.medium)
             Spacer()
-
         }
     }
-    
+
     private var tabBar: some View {
-        HStack(spacing: 12){
-            ForEach(Tab.allCases, id:\.self){ t in
-                Button{
-                    withAnimation(.spring(response: 0.32, dampingFraction: 0.9)){
-                        tab = t} }label: {
+        HStack(spacing: 12) {
+            ForEach(Tab.allCases, id: \.self) { t in
+                Button {
+                    withAnimation(.spring(response: 0.32, dampingFraction: 0.9)) {
+                        tab = t
+                    }
+                } label: {
                     Text(t.rawValue)
                         .font(.system(size: 15, weight: .light))
                         .frame(maxWidth: .infinity)
@@ -74,23 +77,22 @@ struct NotificationView: View {
             }
         }
     }
+
     private var content: some View {
         switch tab {
         case .message:
-            VStack{
+            VStack {
                 Text("お知らせはありません")
                     .foregroundStyle(Color.white)
             }
         case .history:
-            VStack{
+            VStack {
                 Text("履歴はありません")
                     .foregroundStyle(Color.white)
             }
         }
     }
 }
-
-
 
 #Preview {
     NotificationView()

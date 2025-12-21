@@ -10,13 +10,13 @@ import SwiftUI
 struct ContentView: View {
     // 暫定のヘッダー高さ（HomeHaderViewの見た目に合わせて調整）
     private let headerHeight: CGFloat = 100
-    @State private var selectedTab : MainTab = .home
+    @State private var selectedTab: MainTab = .home
 
     var body: some View {
         NavigationStack {
             ZStack {
                 // メインコンテンツ領域（ヘッダーの下から始まる）
-                
+
                 VStack(spacing: 0) {
                     // ヘッダー分の空きは Home のときだけ入れる
                     if selectedTab == .home {
@@ -32,42 +32,41 @@ struct ContentView: View {
                             case .home:
                                 ScrollView(showsIndicators: false) {
                                     VStack(spacing: 8) {
-                                        VStack(spacing:0){
-                                            HStack(spacing:0){
+                                        VStack(spacing: 0) {
+                                            HStack(spacing: 0) {
                                                 Spacer()
                                                 NavigationLink {
                                                     AllCardsInformationView()
                                                 } label: {
                                                     HStack(spacing: 4) {
                                                         Text("すべてのカード ")
-                                                            .foregroundStyle(Color(red:17/255, green: 79/255, blue: 86/255))
+                                                            .foregroundStyle(Color(red: 17 / 255, green: 79 / 255, blue: 86 / 255))
                                                         Image(systemName: "chevron.right")
-                                                            .foregroundStyle(Color(red:17/255, green: 79/255, blue: 86/255))
+                                                            .foregroundStyle(Color(red: 17 / 255, green: 79 / 255, blue: 86 / 255))
                                                     }
                                                 }
                                                 .buttonStyle(.plain)
                                             }
                                             .padding(10)
                                         }
-                                        
+
                                         CardDetailView()
-                    
+
                                         Spacer()
-                        
                                     }
                                     .padding(.top, 20)
                                     .padding(.horizontal, 20)
                                 }
-                                .background(Color(red:28/255,green: 26/255, blue: 27/255))
+                                .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
                                 .cornerRadius(12)
-                                
-                            
+
                             case .receipt:
                                 ReceiptRegistrationView()
                                     .background(Color.clear)
+
                             case .history:
                                 HistoryView()
-                              
+
                             case .account:
                                 AccountsView()
                             }
@@ -78,7 +77,7 @@ struct ContentView: View {
                     .padding(.vertical, 20)
                 }
                 .ignoresSafeArea(edges: [.top, .bottom])
-               
+
                 // 画面上端ヘッダーは Home のときだけ表示
                 if selectedTab == .home {
                     VStack(spacing: 0) {
@@ -88,14 +87,14 @@ struct ContentView: View {
                     .frame(alignment: .top)
                     .ignoresSafeArea(edges: .top)
                 }
-                
+
                 // 画面下端にフッターを固定表示
-                VStack(spacing: 0){
+                VStack(spacing: 0) {
                     Spacer()
                     MainTabBar(onSelect: { tab in
-                            selectedTab = tab
-                        },
-                     selectedTab: selectedTab)
+                                   selectedTab = tab
+                               },
+                               selectedTab: selectedTab)
                 }
                 .ignoresSafeArea()
             }

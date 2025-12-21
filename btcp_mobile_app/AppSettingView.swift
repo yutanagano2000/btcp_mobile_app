@@ -13,16 +13,16 @@ struct AppSettingView: View {
     @State private var isOn2 = false
     @State private var isOn3 = true
     @Environment(\.dismiss) private var dismiss
-    
-    var body: some View{
+
+    var body: some View {
         NavigationStack {
-            ZStack{
+            ZStack {
                 //            Image("CardGroup_ref")
                 //                .resizable()
                 //                .opacity(0.5)
-                VStack(spacing:18){
+                VStack(spacing: 18) {
                     Color.clear.frame(height: headerHeight)
-                    HStack(spacing: 8){
+                    HStack(spacing: 8) {
                         Button(action: { dismiss() }) {
                             HStack(spacing: 6) {
                                 Image(systemName: "chevron.left")
@@ -33,44 +33,39 @@ struct AppSettingView: View {
                         Spacer()
                     }
                     VStack(spacing: 45) {
-                        HStack{
+                        HStack {
                             VStack(alignment: .leading) {
                                 Text("生体認証でログインする")
                                     .foregroundStyle(Color.white)
                                     .fontWeight(.light)
                                 Text("ログイン設定を変更するとログアウトされます")
-                                    .foregroundStyle(Color(red:240/255, green: 135/255, blue: 70/255))
+                                    .foregroundStyle(Color(red: 240 / 255, green: 135 / 255, blue: 70 / 255))
                                     .font(.footnote)
                             }
                             Spacer()
                             Toggle("", isOn: $isOn1)
                                 .labelsHidden()
-                                .toggleStyle(SwitchToggleStyle(tint: Color(red:66/255, green: 200/255, blue: 200/255)))
+                                .toggleStyle(SwitchToggleStyle(tint: Color(red: 66 / 255, green: 200 / 255, blue: 200 / 255)))
                                 .scaleEffect(1.2)
-                            
-                            
-                            
                         }
-                        HStack{
+                        HStack {
                             Text("ログイン時に生体認証を求めない")
                                 .foregroundStyle(Color.white)
                                 .fontWeight(.light)
                             Spacer()
                             Toggle("", isOn: $isOn2)
                                 .labelsHidden()
-                                .toggleStyle(SwitchToggleStyle(tint: Color(red:66/255, green: 200/255, blue: 200/255)))
+                                .toggleStyle(SwitchToggleStyle(tint: Color(red: 66 / 255, green: 200 / 255, blue: 200 / 255)))
                                 .scaleEffect(1.2)
-                            
                         }
-                        
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                            .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                     )
-                    VStack{
+                    VStack {
                         HStack {
                             Text("ダークモード")
                                 .foregroundStyle(Color.white)
@@ -80,9 +75,9 @@ struct AppSettingView: View {
                                 Text("システムデフォルト")
                                     .foregroundStyle(Color.white)
                                     .fontWeight(.light)
-                                NavigationLink{
+                                NavigationLink {
                                     ColorThemeView()
-                                } label:{
+                                } label: {
                                     Image(systemName: "chevron.right")
                                         .foregroundStyle(Color.white)
                                         .font(.system(size: 12))
@@ -94,9 +89,9 @@ struct AppSettingView: View {
                     .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                            .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                     )
-                    VStack{
+                    VStack {
                         HStack {
                             Text("領収書未登録の取引をホームで通知する")
                                 .font(.system(size: 15))
@@ -105,25 +100,21 @@ struct AppSettingView: View {
                             Spacer()
                             Toggle("", isOn: $isOn3)
                                 .labelsHidden()
-                                .toggleStyle(SwitchToggleStyle(tint: Color(red:66/255, green: 200/255, blue: 200/255)))
+                                .toggleStyle(SwitchToggleStyle(tint: Color(red: 66 / 255, green: 200 / 255, blue: 200 / 255)))
                                 .scaleEffect(1.2)
-                            
                         }
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(red:30/255, green: 30/255, blue: 30/255))
+                            .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                     )
-                    
-                    
-                    
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .background(Color(red:28/255, green: 26/255, blue: 27/255))
+            .background(Color(red: 28 / 255, green: 26 / 255, blue: 27 / 255))
             .ignoresSafeArea()
             .navigationBarBackButtonHidden(true)
         }
