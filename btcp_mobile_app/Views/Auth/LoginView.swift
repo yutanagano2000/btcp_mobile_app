@@ -11,8 +11,8 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
 
-    // 親（App）へ「ログイン成功」を通知する
-    var onLogin: () -> Void = {}
+    // Appファイルで環境注入したAuthManagerを取り出す
+    @EnvironmentObject var authManager: AuthManager
 
     var body: some View {
         ZStack {
@@ -43,8 +43,8 @@ struct LoginView: View {
                 }
 
                 Button {
-                    // ここで認証処理を行い、成功したら onLogin()
-                    onLogin()
+                    // ログインボタンを押下することでauthManagerのログイン処理を呼び出す
+                    authManager.login()
                 } label: {
                     Text("ログイン")
                         .padding()
@@ -73,6 +73,7 @@ struct LoginView: View {
 }
 
 #Preview {
-    // プレビュー用に onLogin は空のままでOK
+    // プレビュー用にAuthManagerを注入
     LoginView()
+    .environmentObject(AuthManager())
 }

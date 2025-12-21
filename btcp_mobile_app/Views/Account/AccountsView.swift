@@ -8,6 +8,7 @@ import SwiftUI
 
 struct AccountsView: View {
     private let headerHeight: CGFloat = 10
+    @EnvironmentObject private var authManager: AuthManager
 
     var body: some View {
         NavigationStack {
@@ -155,17 +156,19 @@ struct AccountsView: View {
                         .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
                         .cornerRadius(12)
                         VStack {
-                            HStack {
+                            Button{
+                                authManager.logout()
+                            } label: {
                                 Text("ログアウト")
                                     .foregroundStyle(Color(red: 255 / 255, green: 107 / 255, blue: 77 / 255))
-                                Spacer()
+                                    .padding()
+                                    .foregroundStyle(Color.white)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
+                                    .cornerRadius(12)
                             }
                         }
-                        .padding()
-                        .foregroundStyle(Color.white)
-                        .frame(maxWidth: .infinity)
-                        .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
-                        .cornerRadius(12)
+                        
                     }
                     .padding()
                     .padding(.bottom, 60)

@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 // 認証状態を管理するクラス
 // ObservableObjectプロトコルを使用することで状態変化の自動通知が可能になる
