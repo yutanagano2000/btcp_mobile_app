@@ -22,21 +22,20 @@ struct CardGroupSettingView: View {
                 Color.clear.frame(height: headerHeight)
                 HStack(spacing: 8) {
                     Button(action: { dismiss() }) {
-                        HStack(spacing: 6) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 25, weight: .light))
-                        }
-                        .foregroundStyle(Color.white)
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(Color.white)
+                            .fontWeight(.semibold)
                     }
                     Spacer()
                     Text("グループ")
                         .foregroundStyle(Color.white)
                         .font(.system(size: 18))
-                        .fontWeight(.light)
                     Spacer()
-                    Image(systemName: "plus")
-                        .font(.system(size: 25, weight: .light))
-                        .foregroundStyle(Color(red: 17 / 255, green: 79 / 255, blue: 86 / 255))
+                    Button(action: {}) {
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(Color.white)
+                            .font(.system(size: 18))
+                    }
                 }
 
                 HStack(spacing: 20) {
@@ -59,18 +58,11 @@ struct CardGroupSettingView: View {
                 )
                 .focused($isFocused)
 
-                VStack {
-                    Text("該当するグループがありません")
-                        .font(.system(size: 15))
-                        .foregroundStyle(.white.opacity(0.7))
-                        .padding()
-                }
-                .padding(.vertical)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
-                )
+                Spacer()
+                Text("該当するグループがありません")
+                    .font(.system(size: 15))
+                    .foregroundStyle(.white.opacity(0.7))
+                Spacer()
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
