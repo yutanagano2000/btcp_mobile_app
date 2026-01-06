@@ -14,11 +14,22 @@ struct CardInformationView: View {
     @State private var isReceiptRegistrationNotRequired = false
     @State private var isInformationVisible = true
     @State private var selectedTab: TabType = .cardInfo
-    
+    @State private var showCopyToast = false
+
     // タブの種類を定義
     enum TabType {
         case history
         case cardInfo
+    }
+
+    // クリップボードにコピーする関数
+    private func copyToClipboard(text: String) {
+        UIPasteboard.general.string = text
+        showCopyToast = true
+        Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000) // 2秒
+            showCopyToast = false
+        }
     }
 
     var body: some View {
@@ -75,10 +86,10 @@ struct CardInformationView: View {
                                 RoundedRectangle(cornerRadius: 6)
                                     .stroke(Color.gray, lineWidth: 1)
                             )
-                            
+
                             // タブバー
                             TabBarView(selectedTab: $selectedTab)
-                            
+
                             // タブの内容に応じて表示を切り替え
                             if selectedTab == .history {
                                 HistoryContent
@@ -92,9 +103,31 @@ struct CardInformationView: View {
                 }
             }
             .navigationBarBackButtonHidden(true) // デフォルトの戻るボタンを非表示
+            .overlay(
+                // トーストメッセージ
+                Group {
+                    if showCopyToast {
+                        VStack {
+                            Text("クリップボードにコピーされました")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 16))
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.black.opacity(0.8))
+                                )
+                                .transition(.opacity.combined(with: .scale))
+                                .padding(.top, headerHeight + 20)
+                            Spacer()
+                        }
+                    }
+                }
+                .animation(.easeInOut(duration: 0.3), value: showCopyToast)
+            )
         }
     }
-    
+
     // 利用履歴のコンテンツ
     private var HistoryContent: some View {
         VStack(spacing: 20) {
@@ -106,7 +139,7 @@ struct CardInformationView: View {
                 Image(systemName: "chevron.down")
                     .foregroundStyle(Color(red: 17 / 255, green: 79 / 255, blue: 86 / 255))
                     .font(.system(size: 15))
-                
+
                 // 検索欄
                 HStack(spacing: 20) {
                     Image(systemName: "magnifyingglass")
@@ -134,9 +167,9 @@ struct CardInformationView: View {
                 .padding()
         }
     }
-    
+
     // カード情報のコンテンツ（元のContentをリネーム）
-    private var CardInfoContent: some View{
+    private var CardInfoContent: some View {
         VStack(spacing: 20) {
             // 最初のブロック
             VStack(spacing: 16) {
@@ -173,9 +206,7 @@ struct CardInformationView: View {
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-               
-            
-            
+
             // 2つ目のブロック
             VStack(spacing: 16) {
                 HStack {
@@ -244,9 +275,14 @@ struct CardInformationView: View {
                                 .monospacedDigit()
                                 .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
                                 .font(.system(size: 16))
-                            Image(systemName: "document.on.document")
-                                .foregroundStyle(Color.white)
-                                .fontWeight(.medium)
+                            Button {
+                                copyToClipboard(text: "4531 7400 0279 1474")
+                            } label: {
+                                Image(systemName: "document.on.document")
+                                    .foregroundStyle(Color.white)
+                                    .fontWeight(.medium)
+                            }
+                            .buttonStyle(.plain)
                         }
                         .opacity(isInformationVisible ? 1 : 0)
                         HStack(spacing: 10) {
@@ -269,9 +305,14 @@ struct CardInformationView: View {
                             Text("SATOSHI NAKAMOTO")
                                 .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
                                 .font(.system(size: 16))
-                            Image(systemName: "document.on.document")
-                                .foregroundStyle(Color.white)
-                                .fontWeight(.medium)
+                            Button {
+                                copyToClipboard(text: "SATOSHI NAKAMOTO")
+                            } label: {
+                                Image(systemName: "document.on.document")
+                                    .foregroundStyle(Color.white)
+                                    .fontWeight(.medium)
+                            }
+                            .buttonStyle(.plain)
                         }
                         .opacity(isInformationVisible ? 1 : 0)
                         HStack(spacing: 10) {
@@ -319,9 +360,14 @@ struct CardInformationView: View {
                                 .monospacedDigit()
                                 .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
                                 .font(.system(size: 16))
-                            Image(systemName: "document.on.document")
-                                .foregroundStyle(Color.white)
-                                .fontWeight(.medium)
+                            Button {
+                                copyToClipboard(text: "586")
+                            } label: {
+                                Image(systemName: "document.on.document")
+                                    .foregroundStyle(Color.white)
+                                    .fontWeight(.medium)
+                            }
+                            .buttonStyle(.plain)
                         }
                         .opacity(isInformationVisible ? 1 : 0)
                         HStack(spacing: 10) {
@@ -333,14 +379,11 @@ struct CardInformationView: View {
                         .opacity(isInformationVisible ? 0 : 1)
                     }
                 }
-                
-                
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
-            
+
             // 3つ目のブロック
             VStack(spacing: 16) {
                 HStack {
@@ -389,15 +432,11 @@ struct CardInformationView: View {
                     }
                 }
                 .buttonStyle(.plain)
-                
-                
-                
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
-            
+
             // 4つ目のブロック
             VStack(spacing: 16) {
                 NavigationLink {
@@ -415,31 +454,37 @@ struct CardInformationView: View {
                     }
                 }
                 .buttonStyle(.plain)
-                HStack {
-                    Text("カードの管理者と補助者")
-                        .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
-                        .font(.system(size: 16))
-                    Spacer()
+                NavigationLink {
+                    CardManagerAndAssistantView()
+                } label: {
                     HStack {
+                        Text("カードの管理者と補助者")
+                            .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
+                            .font(.system(size: 16))
+                        Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundStyle(Color.white)
                     }
                 }
-                HStack {
-                    Text("このカードにアクセスできるユーザー")
-                        .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
-                        .font(.system(size: 16))
-                    Spacer()
+                .buttonStyle(.plain)
+                NavigationLink {
+                    CardAccessibleUsersView()
+                } label: {
                     HStack {
+                        Text("このカードにアクセスできるユーザー")
+                            .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
+                            .font(.system(size: 16))
+                        Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundStyle(Color.white)
                     }
                 }
+                .buttonStyle(.plain)
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
+
             // 5つ目のブロック
             VStack(spacing: 16) {
                 HStack {
@@ -450,10 +495,9 @@ struct CardInformationView: View {
                         Image(systemName: "info.circle")
                             .foregroundStyle(Color.white)
                             .fontWeight(.thin)
-                        
                     }
                     Spacer()
-                    NavigationLink{
+                    NavigationLink {
                         Text("請求書回収メールアドレス設定画面")
                     } label: {
                         Text("発行する")
@@ -461,8 +505,7 @@ struct CardInformationView: View {
                             .fontWeight(.thin)
                             .padding(.vertical, 4)
                             .padding(.horizontal, 16)
-                            .background(RoundedRectangle(cornerRadius: 5).stroke(Color.white,lineWidth: 1))
-                        
+                            .background(RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 1))
                     }
                     .buttonStyle(.plain)
                 }
@@ -470,8 +513,7 @@ struct CardInformationView: View {
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
-            
+
             // 6つ目のブロック
             VStack(spacing: 16) {
                 VStack(spacing: 12) {
@@ -491,46 +533,35 @@ struct CardInformationView: View {
                         .font(.footnote)
                         Spacer()
                     }
-                    
                 }
-                
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
+
             // 7つ目のブロック
             VStack(spacing: 16) {
                 HStack {
-                    Button{
-                    } label:{
+                    Button {} label: {
                         Text("カードの解約")
                             .foregroundStyle(Color.red)
-                            
                     }
                     .buttonStyle(.plain)
-                    
+
                     Spacer()
                 }
-                
-                
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255)))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 0.3))
-            
-            
         }
-        
     }
 }
-
-
 
 // タブバーコンポーネント（グレーの長方形で囲み、選択タブの背景をより黒く）
 struct TabBarView: View {
     @Binding var selectedTab: CardInformationView.TabType
-    
+
     var body: some View {
         HStack(spacing: 0) {
             // 利用履歴タブ
@@ -544,12 +575,12 @@ struct TabBarView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8) // 12から8に変更（約30%細く）
                     .background(
-                        selectedTab == .history 
+                        selectedTab == .history
                             ? Color(red: 20 / 255, green: 20 / 255, blue: 20 / 255) // 選択時はより黒い背景
                             : Color.clear
                     )
             }
-            
+
             // カード情報タブ
             Button {
                 selectedTab = .cardInfo
@@ -561,7 +592,7 @@ struct TabBarView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8) // 12から8に変更（約30%細く）
                     .background(
-                        selectedTab == .cardInfo 
+                        selectedTab == .cardInfo
                             ? Color(red: 20 / 255, green: 20 / 255, blue: 20 / 255) // 選択時はより黒い背景
                             : Color.clear
                     )

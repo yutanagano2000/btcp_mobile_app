@@ -8,6 +8,18 @@ import SwiftUI
 
 struct CardDetailView: View {
     @State private var isOn = false
+    @State private var showCopyToast = false
+    
+    // クリップボードにコピーする関数
+    private func copyToClipboard(text: String) {
+        UIPasteboard.general.string = text
+        showCopyToast = true
+        Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000) // 2秒
+            showCopyToast = false
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 29) {
@@ -71,8 +83,13 @@ struct CardDetailView: View {
                                 Spacer()
                                 Text("1234 5678 9012 0466")
                                     .monospacedDigit()
-                                Image(systemName: "document.on.document")
-                                    .opacity(isOn ? 0 : 1)
+                                Button {
+                                    copyToClipboard(text: "1234 5678 9012 0466")
+                                } label: {
+                                    Image(systemName: "document.on.document")
+                                }
+                                .buttonStyle(.plain)
+                                .opacity(isOn ? 0 : 1)
                             }
                             .opacity(isOn ? 0 : 1)
                             HStack(spacing: 10) {
@@ -94,8 +111,13 @@ struct CardDetailView: View {
                                 Spacer()
                                 Text("586")
                                     .monospacedDigit()
-                                Image(systemName: "document.on.document")
-                                    .opacity(1)
+                                Button {
+                                    copyToClipboard(text: "586")
+                                } label: {
+                                    Image(systemName: "document.on.document")
+                                }
+                                .buttonStyle(.plain)
+                                .opacity(1)
                             }
                             .opacity(isOn ? 0 : 1)
                             HStack(spacing: 10) {
@@ -147,6 +169,28 @@ struct CardDetailView: View {
                 .cornerRadius(12)
             }
             .foregroundStyle(Color.white)
+            .overlay(
+                // トーストメッセージ
+                Group {
+                    if showCopyToast {
+                        VStack {
+                            Text("クリップボードにコピーされました")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 16))
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.black.opacity(0.8))
+                                )
+                                .transition(.opacity.combined(with: .scale))
+                                .padding(.top, 80)
+                            Spacer()
+                        }
+                    }
+                }
+                .animation(.easeInOut(duration: 0.3), value: showCopyToast)
+            )
         }
     }
 }

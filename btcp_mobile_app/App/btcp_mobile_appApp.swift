@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 // btcp.appのエントリーポイント
 @main
 struct btcp_mobile_appApp: App {
+    init(){
+        FirebaseApp.configure()
+    }
     // 1) AuthManagerのインスタンスを生成
     // @StateObjectで@Publishedの変更を検知
     @StateObject private var authManager = AuthManager()

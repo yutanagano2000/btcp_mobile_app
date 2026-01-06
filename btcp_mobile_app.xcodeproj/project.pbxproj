@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		238E90F22F0DD52F00BEF5DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 238E90F12F0DD52F00BEF5DB /* FirebaseAuth */; };
 		23A487FB2EF7A82800BBFC0D /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 23A487FA2EF7A82800BBFC0D /* Auth */; };
 		23A487FD2EF7A82800BBFC0D /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 23A487FC2EF7A82800BBFC0D /* Functions */; };
 		23A487FF2EF7A82800BBFC0D /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 23A487FE2EF7A82800BBFC0D /* PostgREST */; };
@@ -66,6 +67,7 @@
 				23A488092EF7B3D200BBFC0D /* Supabase in Frameworks */,
 				23A487FB2EF7A82800BBFC0D /* Auth in Frameworks */,
 				23A488032EF7A82800BBFC0D /* Storage in Frameworks */,
+				238E90F22F0DD52F00BEF5DB /* FirebaseAuth in Frameworks */,
 				23A488012EF7A82800BBFC0D /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +143,7 @@
 				23A488002EF7A82800BBFC0D /* Realtime */,
 				23A488022EF7A82800BBFC0D /* Storage */,
 				23A488082EF7B3D200BBFC0D /* Supabase */,
+				238E90F12F0DD52F00BEF5DB /* FirebaseAuth */,
 			);
 			productName = btcp_mobile_app;
 			productReference = 23BC14DC2EE833B800FF7041 /* btcp_mobile_app.app */;
@@ -226,6 +229,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				23A487F92EF7A82800BBFC0D /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				238E90F02F0DD52F00BEF5DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 23BC14DD2EE833B800FF7041 /* Products */;
@@ -612,6 +616,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		238E90F02F0DD52F00BEF5DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
 		23A487F92EF7A82800BBFC0D /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
@@ -623,6 +635,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		238E90F12F0DD52F00BEF5DB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 238E90F02F0DD52F00BEF5DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
 		23A487FA2EF7A82800BBFC0D /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 23A487F92EF7A82800BBFC0D /* XCRemoteSwiftPackageReference "supabase-swift" */;
