@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "MC3299FNG8.jp.sugita.btcp.mobile",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

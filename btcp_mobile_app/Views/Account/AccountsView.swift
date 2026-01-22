@@ -5,6 +5,7 @@
 //  Created by 永野佑太 on 2025/12/16.
 //
 import SwiftUI
+import FirebaseAuth
 
 struct AccountsView: View {
     private let headerHeight: CGFloat = 10
@@ -149,6 +150,9 @@ struct AccountTabBarView: View {
 // 全般タブのコンテンツ（現在のコンテンツを移動）
 struct GeneralTabContent: View {
     @EnvironmentObject var authManager: AuthManager
+    @State private var isResetting = false
+    @State private var showResetAlert = false
+    @State private var resetErrorMessage: String?
 
     var body: some View {
         VStack(spacing: 40) {
@@ -290,6 +294,34 @@ struct GeneralTabContent: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
             .cornerRadius(12)
+            
+            // 開発用: KYBステータスリセットボタン
+            VStack {
+                Button {
+                    Task {
+                        await resetKYBStatus()
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text(isResetting ? "リセット中..." : "KYBステータスをリセット（開発用）")
+                    }
+                    .foregroundStyle(Color.orange)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color(red: 30 / 255, green: 30 / 255, blue: 30 / 255))
+                    .cornerRadius(12)
+                }
+                .disabled(isResetting)
+                
+                if let errorMessage = resetErrorMessage {
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .padding(.horizontal)
+                }
+            }
+            
             VStack {
                 Button {
                     authManager.logout()
@@ -303,6 +335,47 @@ struct GeneralTabContent: View {
                         .cornerRadius(12)
                 }
             }
+        }
+        .alert("リセット完了", isPresented: $showResetAlert) {
+            Button("OK") {
+                // リセット後、ログアウトして再ログインするとKYBStatusViewが表示される
+                authManager.logout()
+            }
+        } message: {
+            Text("KYBステータスをリセットしました。再度ログインしてKYB認証を開始してください。")
+        }
+    }
+    
+    // MARK: - リセット処理
+    private func resetKYBStatus() async {
+        guard let firebaseUid = Auth.auth().currentUser?.uid else {
+            await MainActor.run {
+                resetErrorMessage = "ユーザー情報が取得できません"
+            }
+            return
+        }
+        
+        await MainActor.run {
+            isResetting = true
+            resetErrorMessage = nil
+        }
+        
+        do {
+            try await FirestoreManager.shared.resetKYBStatus(firebaseUid: firebaseUid)
+            await MainActor.run {
+                authManager.kybStatus = .notStarted
+                showResetAlert = true
+            }
+            print("✅ KYBステータスリセット成功")
+        } catch {
+            await MainActor.run {
+                resetErrorMessage = "リセットに失敗しました: \(error.localizedDescription)"
+            }
+            print("❌ KYBステータスリセットエラー: \(error.localizedDescription)")
+        }
+        
+        await MainActor.run {
+            isResetting = false
         }
     }
 }

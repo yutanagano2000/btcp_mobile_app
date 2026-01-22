@@ -60,10 +60,7 @@ struct LoginView: View {
                 }
 
                 Button {
-                    //ログインボタンを押下することでauthManagerのログイン処理を呼び出す
-                    Task {
-                        await authManager.login(email: email, password: password)
-                    }
+                    // マジックリンク送信処理はEmailInputViewに移動
                 } label: {
                     Text("ログイン")
                         .padding()
@@ -94,5 +91,5 @@ struct LoginView: View {
 #Preview {
     // プレビュー用にAuthManagerを注入
     LoginView()
-    .environmentObject(AuthManager())
+        .environmentObject(AuthManager())
 }
