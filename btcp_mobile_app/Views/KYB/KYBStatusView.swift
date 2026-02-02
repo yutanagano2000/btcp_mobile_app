@@ -10,9 +10,6 @@ import FirebaseAuth
 
 struct KYBStatusView: View {
     @EnvironmentObject var authManager: AuthManager
-    @State private var isSubmitting = false
-    @State private var showCompletionAlert = false
-    @State private var errorMessage: String?
     
     // カラー定義
     private let backgroundColor = Color(red: 28/255, green: 26/255, blue: 27/255)
@@ -20,7 +17,17 @@ struct KYBStatusView: View {
     private let secondaryText = Color(red: 161/255, green: 161/255, blue: 161/255)
     private let accentColor = Color(red: 100/255, green: 180/255, blue: 190/255)
     
+    // KYB申請済みの場合は何も表示しない（ホーム画面に遷移するため）
     var body: some View {
+        // KYB申請済みの場合は空のViewを返す（自動的にContentViewに遷移する）
+        if authManager.kybStatus == .approved {
+            EmptyView()
+        } else {
+            kybStatusViewContent
+        }
+    }
+    
+    private var kybStatusViewContent: some View {
         NavigationStack {
             ZStack {
                 backgroundColor.ignoresSafeArea()
@@ -68,40 +75,20 @@ struct KYBStatusView: View {
                     
                     // ボタン
                     VStack(spacing: 16) {
-                        // エラーメッセージ表示
-                        if let errorMessage = errorMessage {
-                            Text(errorMessage)
-                                .font(.caption)
-                                .foregroundStyle(.red)
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 8)
-                        }
-                        
-                        Button {
-                            Task {
-                                await submitMockKYBApplication()
+                        NavigationLink(destination: KYBCompanyInfoView()) {
+                            HStack {
+                                Image(systemName: "arrow.up.right")
+                                Text("KYB認証を開始")
                             }
-                        } label: {
-                            if isSubmitting {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .frame(height: 56)
-                            } else {
-                                HStack {
-                                    Image(systemName: "arrow.up.right")
-                                    Text("KYB認証を開始")
-                                }
-                                .font(.body)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 56)
-                            }
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
                         }
                         .frame(maxWidth: .infinity)
-                        .background(isSubmitting ? secondaryText.opacity(0.3) : accentColor.opacity(0.3))
+                        .background(accentColor.opacity(0.3))
                         .cornerRadius(12)
-                        .disabled(isSubmitting)
                         .buttonStyle(.plain)
                         
                         Divider()
@@ -126,92 +113,6 @@ struct KYBStatusView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(backgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .alert("申請完了", isPresented: $showCompletionAlert) {
-                Button("OK") {
-                    // 自動的にContentViewに遷移（kybStatusが.approvedになったため）
-                }
-            } message: {
-                Text("KYB申請が完了しました。承認済みのため、すぐにカードをご利用いただけます。")
-            }
-        }
-    }
-    
-    // MARK: - モックKYB申請処理
-    
-    /// フォーム入力なしで直接Rain APIにPOST（モック化）
-    private func submitMockKYBApplication() async {
-        // Firebase UID、ウォレットアドレス、メールアドレスを取得
-        guard let firebaseUid = Auth.auth().currentUser?.uid else {
-            await MainActor.run {
-                errorMessage = "ユーザー情報が取得できません。再度ログインしてください。"
-            }
-            return
-        }
-        
-        guard let walletAddress = Web3AuthManager.shared.walletAddress else {
-            await MainActor.run {
-                errorMessage = "ウォレットアドレスが取得できません。"
-            }
-            return
-        }
-        
-        guard let email = Auth.auth().currentUser?.email else {
-            await MainActor.run {
-                errorMessage = "メールアドレスが取得できません。"
-            }
-            return
-        }
-        
-        await MainActor.run {
-            isSubmitting = true
-            errorMessage = nil
-        }
-        
-        do {
-            print("🚀 KYB申請開始（モック）...")
-            print("👤 Firebase UID: \(firebaseUid)")
-            print("📍 Wallet: \(walletAddress)")
-            print("📧 Email: \(email)")
-            
-            // Rain APIで法人アカウントを作成（モックデータ）
-            let rainUserId = try await RainAPIManager.shared.createCorporateAccount(
-                walletAddress: walletAddress,
-                email: email,
-                dummyData: [:] // ダミーデータはRainAPIManager内で設定
-            )
-            
-            print("✅ Rain API呼び出し成功: rainUserId = \(rainUserId)")
-            
-            // FirestoreにrainUserIdを保存（kybStatus: "approved"）
-            try await FirestoreManager.shared.updateRainUserId(
-                firebaseUid: firebaseUid,
-                rainUserId: rainUserId,
-                kybStatus: "approved"
-            )
-            
-            print("✅ Firestore保存完了")
-            
-            // AuthManagerのステータスも更新
-            await MainActor.run {
-                authManager.kybStatus = .approved
-                showCompletionAlert = true
-            }
-            
-            print("🎉 KYB申請完了！")
-        } catch let error as RainAPIError {
-            await MainActor.run {
-                errorMessage = error.localizedDescription
-                print("❌ KYB申請エラー (Rain API): \(error.localizedDescription)")
-            }
-        } catch {
-            await MainActor.run {
-                errorMessage = "申請に失敗しました: \(error.localizedDescription)"
-                print("❌ KYB申請エラー: \(error.localizedDescription)")
-            }
-        }
-        
-        await MainActor.run {
-            isSubmitting = false
         }
     }
 }

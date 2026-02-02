@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -13,5 +17,23 @@
 			</array>
 		</dict>
 	</array>
+	<key>RAIN_API_KEY</key>
+	<string>$(RAIN_API_KEY)</string>
+	<key>RAIN_API_BASE_URL</key>
+	<string>$(RAIN_API_BASE_URL)</string>
+	<key>SUPABASE_URL</key>
+	<string>$(SUPABASE_URL)</string>
+	<key>SUPABASE_ANON_KEY</key>
+	<string>$(SUPABASE_ANON_KEY)</string>
+	<key>WEB3AUTH_CLIENT_ID</key>
+	<string>$(WEB3AUTH_CLIENT_ID)</string>
+	<key>WEB3AUTH_VERIFIER_NAME</key>
+	<string>$(WEB3AUTH_VERIFIER_NAME)</string>
+	<key>WEB3AUTH_REDIRECT_URL</key>
+	<string>$(WEB3AUTH_REDIRECT_URL)</string>
+	<key>TEST_EMAIL</key>
+	<string>$(TEST_EMAIL)</string>
+	<key>TEST_PASSWORD</key>
+	<string>$(TEST_PASSWORD)</string>
 </dict>
 </plist>

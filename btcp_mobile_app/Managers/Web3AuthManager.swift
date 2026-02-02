@@ -41,14 +41,20 @@ final class Web3AuthManager: ObservableObject {
 
     private var web3Auth: Web3Auth?
 
-    /// Web3Auth Client ID
-    private let clientId = "BBlSuarULy-MjmGR1YJOGKevanhA2S-Xo-wGt5W8SM6LVVpEM-eYA40y5HC8CS_R1E-_3eOIdZ_nIDVehSaOS3o"
+    /// Web3Auth Client ID（環境変数から取得）
+    private var clientId: String {
+        AppEnvironment.web3AuthClientId
+    }
 
-    /// Firebase Custom Verifier名（Web3Auth Dashboardで設定したAuth Connection ID）
-    private let verifierName = "firebase-btcp"
+    /// Firebase Custom Verifier名（環境変数から取得）
+    private var verifierName: String {
+        AppEnvironment.web3AuthVerifierName
+    }
 
-    /// リダイレクトURL（iOSアプリのカスタムURLスキーム）
-    private let redirectUrl = "jp.sugita.btcp.mobile://auth"
+    /// リダイレクトURL（環境変数から取得）
+    private var redirectUrl: String {
+        AppEnvironment.web3AuthRedirectUrl
+    }
 
     /// ウォレットアドレス
     @Published private(set) var walletAddress: String?

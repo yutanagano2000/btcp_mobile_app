@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct KYBCompanyInfoView: View {
-    @State private var companyName = ""
-    @State private var companyNameEn = ""
-    @State private var corporateNumber = ""
+    @State private var companyName = "株式会社サンプル"
+    @State private var companyNameEn = "Sample Inc."
+    @State private var corporateNumber = "1234567890123"
     @State private var establishedDate = Date()
-    @State private var industry = ""
-    @State private var businessDescription = ""
+    @State private var industry = "IT・通信"
+    @State private var businessDescription = "システム開発、クラウドサービス提供"
     
     // カラー定義
     private let backgroundColor = Color(red: 28/255, green: 26/255, blue: 27/255)
@@ -32,7 +32,7 @@ struct KYBCompanyInfoView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // プログレス表示
-                    KYBProgressBar(currentStep: 1, totalSteps: 5)
+                    KYBProgressBar(currentStep: 1, totalSteps: 4)
                         .padding(.top, 20)
                     
                     // フォーム

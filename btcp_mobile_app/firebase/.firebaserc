@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "btcp-3004a"
-  }
+    "default": "btcp-swift"
+  },
+  "targets": {},
+  "etags": {}
 }

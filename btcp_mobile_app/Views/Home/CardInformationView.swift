@@ -5,6 +5,8 @@
 //  Created by 永野佑太 on 2025/12/22.
 //
 import SwiftUI
+import UIKit
+import FirebaseAuth
 
 struct CardInformationView: View {
     @Environment(\.dismiss) private var dismiss
@@ -15,6 +17,10 @@ struct CardInformationView: View {
     @State private var isInformationVisible = true
     @State private var selectedTab: TabType = .cardInfo
     @State private var showCopyToast = false
+    @State private var cardSecrets: CardSecrets?
+    @State private var isLoadingSecrets = false
+    @State private var errorMessage: String?
+    @State private var cardId: String?
 
     // タブの種類を定義
     enum TabType {
@@ -30,6 +36,62 @@ struct CardInformationView: View {
             try? await Task.sleep(nanoseconds: 2_000_000_000) // 2秒
             showCopyToast = false
         }
+    }
+    
+    // FirestoreからカードIDを取得してカードシークレットを取得する関数
+    private func fetchCardSecrets() async {
+        guard !isLoadingSecrets else { return }
+        
+        isLoadingSecrets = true
+        errorMessage = nil
+        
+        do {
+            // 1. FirestoreからカードIDを取得
+            guard let firebaseUid = FirebaseAuth.Auth.auth().currentUser?.uid else {
+                throw RainAPIError.apiError("ユーザーが認証されていません")
+            }
+            
+            let firestoreUser = try await FirestoreManager.shared.getUser(firebaseUid: firebaseUid)
+            
+            guard let fetchedCardId = firestoreUser.cardId else {
+                throw RainAPIError.apiError("カードIDが見つかりません。カードを作成してください。")
+            }
+            
+            await MainActor.run {
+                cardId = fetchedCardId
+            }
+            
+            print("💳 FirestoreからカードID取得: \(fetchedCardId)")
+            
+            // 2. カードシークレットを取得
+            let secrets = try await RainAPIManager.shared.getCardSecrets(cardId: fetchedCardId)
+            await MainActor.run {
+                cardSecrets = secrets
+            }
+            print("✅ カードシークレット取得成功")
+        } catch {
+            print("❌ カードシークレット取得エラー: \(error.localizedDescription)")
+            await MainActor.run {
+                errorMessage = error.localizedDescription
+            }
+        }
+        
+        await MainActor.run {
+            isLoadingSecrets = false
+        }
+    }
+    
+    // カード番号を4桁ごとにスペースで区切る関数
+    private func formatCardNumber(_ cardNumber: String) -> String {
+        let digits = cardNumber.replacingOccurrences(of: " ", with: "")
+        var formatted = ""
+        for (index, char) in digits.enumerated() {
+            if index > 0 && index % 4 == 0 {
+                formatted += " "
+            }
+            formatted.append(char)
+        }
+        return formatted
     }
 
     var body: some View {
@@ -103,6 +165,10 @@ struct CardInformationView: View {
                 }
             }
             .navigationBarBackButtonHidden(true) // デフォルトの戻るボタンを非表示
+            .task {
+                // ビューが表示されたときにカードシークレットを取得
+                await fetchCardSecrets()
+            }
             .overlay(
                 // トーストメッセージ
                 Group {
@@ -271,25 +337,43 @@ struct CardInformationView: View {
                     ZStack {
                         HStack(spacing: 10) {
                             Spacer()
-                            Text("4531 7400 0279 1474")
-                                .monospacedDigit()
-                                .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
-                                .font(.system(size: 16))
-                            Button {
-                                copyToClipboard(text: "4531 7400 0279 1474")
-                            } label: {
-                                Image(systemName: "document.on.document")
-                                    .foregroundStyle(Color.white)
-                                    .fontWeight(.medium)
+                            if let secrets = cardSecrets {
+                                Text(formatCardNumber(secrets.cardNumber))
+                                    .monospacedDigit()
+                                    .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
+                                    .font(.system(size: 16))
+                                Button {
+                                    copyToClipboard(text: secrets.cardNumber)
+                                } label: {
+                                    Image(systemName: "document.on.document")
+                                        .foregroundStyle(Color.white)
+                                        .fontWeight(.medium)
+                                }
+                                .buttonStyle(.plain)
+                            } else if isLoadingSecrets {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                            } else {
+                                Text("読み込み中...")
+                                    .monospacedDigit()
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 16))
                             }
-                            .buttonStyle(.plain)
                         }
                         .opacity(isInformationVisible ? 1 : 0)
                         HStack(spacing: 10) {
                             Spacer()
-                            Text("**** **** **** 1474")
-                                .foregroundStyle(Color(red: 59 / 255, green: 59 / 255, blue: 59 / 255))
-                                .font(.system(size: 16))
+                            if let secrets = cardSecrets {
+                                let lastFour = String(secrets.cardNumber.suffix(4))
+                                Text("**** **** **** \(lastFour)")
+                                    .foregroundStyle(Color(red: 59 / 255, green: 59 / 255, blue: 59 / 255))
+                                    .font(.system(size: 16))
+                            } else {
+                                Text("**** **** **** ****")
+                                    .foregroundStyle(Color(red: 59 / 255, green: 59 / 255, blue: 59 / 255))
+                                    .font(.system(size: 16))
+                            }
                         }
                         .opacity(isInformationVisible ? 0 : 1)
                     }
@@ -356,18 +440,29 @@ struct CardInformationView: View {
                     ZStack {
                         HStack(spacing: 10) {
                             Spacer()
-                            Text("586")
-                                .monospacedDigit()
-                                .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
-                                .font(.system(size: 16))
-                            Button {
-                                copyToClipboard(text: "586")
-                            } label: {
-                                Image(systemName: "document.on.document")
-                                    .foregroundStyle(Color.white)
-                                    .fontWeight(.medium)
+                            if let secrets = cardSecrets {
+                                Text(secrets.cvc)
+                                    .monospacedDigit()
+                                    .foregroundStyle(Color(red: 161 / 255, green: 161 / 255, blue: 161 / 255))
+                                    .font(.system(size: 16))
+                                Button {
+                                    copyToClipboard(text: secrets.cvc)
+                                } label: {
+                                    Image(systemName: "document.on.document")
+                                        .foregroundStyle(Color.white)
+                                        .fontWeight(.medium)
+                                }
+                                .buttonStyle(.plain)
+                            } else if isLoadingSecrets {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                            } else {
+                                Text("***")
+                                    .monospacedDigit()
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 16))
                             }
-                            .buttonStyle(.plain)
                         }
                         .opacity(isInformationVisible ? 1 : 0)
                         HStack(spacing: 10) {

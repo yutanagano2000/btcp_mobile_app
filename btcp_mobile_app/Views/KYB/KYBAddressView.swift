@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct KYBAddressView: View {
-    @State private var postalCode = ""
-    @State private var prefecture = ""
-    @State private var city = ""
-    @State private var street = ""
-    @State private var building = ""
-    @State private var phoneNumber = ""
+    @State private var postalCode = "150-0001"
+    @State private var prefecture = "東京都"
+    @State private var city = "渋谷区"
+    @State private var street = "神宮前1-2-3"
+    @State private var building = "サンプルビル 5F"
+    @State private var phoneNumber = "03-1234-5678"
     
     // カラー定義
     private let backgroundColor = Color(red: 28/255, green: 26/255, blue: 27/255)
@@ -31,7 +31,7 @@ struct KYBAddressView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // プログレス表示
-                    KYBProgressBar(currentStep: 2, totalSteps: 5)
+                    KYBProgressBar(currentStep: 2, totalSteps: 4)
                         .padding(.top, 20)
                     
                     // フォーム

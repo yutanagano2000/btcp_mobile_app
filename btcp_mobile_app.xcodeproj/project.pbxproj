@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		230AEA752F22E8E3000DDC6A /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 230AEA742F22E8E3000DDC6A /* web3swift */; };
+		233899DE2F25CF3000BFD815 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 233899DD2F25CF3000BFD815 /* FirebaseAnalytics */; };
+		233899E02F25CF3000BFD815 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 233899DF2F25CF3000BFD815 /* FirebaseMessaging */; };
 		238E90F22F0DD52F00BEF5DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 238E90F12F0DD52F00BEF5DB /* FirebaseAuth */; };
 		23A487FB2EF7A82800BBFC0D /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 23A487FA2EF7A82800BBFC0D /* Auth */; };
 		23A487FD2EF7A82800BBFC0D /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 23A487FC2EF7A82800BBFC0D /* Functions */; };
@@ -78,12 +80,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233899E02F25CF3000BFD815 /* FirebaseMessaging in Frameworks */,
 				23A487FF2EF7A82800BBFC0D /* PostgREST in Frameworks */,
 				230AEA752F22E8E3000DDC6A /* web3swift in Frameworks */,
 				23A487FD2EF7A82800BBFC0D /* Functions in Frameworks */,
 				23A488092EF7B3D200BBFC0D /* Supabase in Frameworks */,
 				23B9D7432F1E49BC007CB5E4 /* Web3Auth in Frameworks */,
 				23A487FB2EF7A82800BBFC0D /* Auth in Frameworks */,
+				233899DE2F25CF3000BFD815 /* FirebaseAnalytics in Frameworks */,
 				23ED78642F1EF6CB003D11CE /* FirebaseFirestore in Frameworks */,
 				23A488032EF7A82800BBFC0D /* Storage in Frameworks */,
 				238E90F22F0DD52F00BEF5DB /* FirebaseAuth in Frameworks */,
@@ -166,6 +170,8 @@
 				23B9D7422F1E49BC007CB5E4 /* Web3Auth */,
 				23ED78632F1EF6CB003D11CE /* FirebaseFirestore */,
 				230AEA742F22E8E3000DDC6A /* web3swift */,
+				233899DD2F25CF3000BFD815 /* FirebaseAnalytics */,
+				233899DF2F25CF3000BFD815 /* FirebaseMessaging */,
 			);
 			productName = btcp_mobile_app;
 			productReference = 23BC14DC2EE833B800FF7041 /* btcp_mobile_app.app */;
@@ -331,6 +337,8 @@
 /* Begin XCBuildConfiguration section */
 		23BC14FB2EE833BB00FF7041 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 23BC14DE2EE833B800FF7041 /* btcp_mobile_app */;
+			baseConfigurationReferenceRelativePath = Config/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -395,6 +403,8 @@
 		};
 		23BC14FC2EE833BB00FF7041 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 23BC14DE2EE833B800FF7041 /* btcp_mobile_app */;
+			baseConfigurationReferenceRelativePath = Config/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -683,6 +693,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 230AEA732F22E8E3000DDC6A /* XCRemoteSwiftPackageReference "web3swift" */;
 			productName = web3swift;
+		};
+		233899DD2F25CF3000BFD815 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 238E90F02F0DD52F00BEF5DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		233899DF2F25CF3000BFD815 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 238E90F02F0DD52F00BEF5DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		238E90F12F0DD52F00BEF5DB /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

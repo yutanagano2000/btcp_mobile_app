@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct KYBRepresentativeView: View {
-    @State private var lastName = ""
-    @State private var firstName = ""
-    @State private var lastNameRomaji = ""
-    @State private var firstNameRomaji = ""
-    @State private var title = ""
-    @State private var birthDate = Date()
-    @State private var email = ""
-    @State private var phoneNumber = ""
+    @State private var lastName = "山田"
+    @State private var firstName = "太郎"
+    @State private var lastNameRomaji = "Yamada"
+    @State private var firstNameRomaji = "Taro"
+    @State private var title = "代表取締役"
+    @State private var birthDate = Calendar.current.date(from: DateComponents(year: 1985, month: 4, day: 15)) ?? Date()
+    @State private var email = "taro@example.com"
+    @State private var phoneNumber = "03-1234-5678"
     
     // カラー定義
     private let backgroundColor = Color(red: 28/255, green: 26/255, blue: 27/255)
@@ -35,7 +35,7 @@ struct KYBRepresentativeView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // プログレス表示
-                    KYBProgressBar(currentStep: 3, totalSteps: 5)
+                    KYBProgressBar(currentStep: 3, totalSteps: 4)
                         .padding(.top, 20)
                     
                     // フォーム
@@ -124,7 +124,7 @@ struct KYBRepresentativeView: View {
             // 次へボタン
             VStack {
                 Spacer()
-                NavigationLink(destination: KYBDocumentUploadView()) {
+                NavigationLink(destination: KYBReviewView()) {
                     Text("次へ")
                         .font(.body)
                         .fontWeight(.medium)

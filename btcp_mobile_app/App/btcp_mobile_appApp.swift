@@ -12,6 +12,8 @@ import SwiftUI
 // btcp.appのエントリーポイント
 @main
 struct btcp_mobile_appApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     init() {
         FirebaseApp.configure()
 
@@ -32,9 +34,21 @@ struct btcp_mobile_appApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if authManager.isAuthenticated {
+                if authManager.isCheckingAuth {
+                    // 認証状態チェック中はローディング画面を表示
+                    ZStack {
+                        Color(red: 28/255, green: 26/255, blue: 27/255)
+                            .ignoresSafeArea()
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    }
+                } else if authManager.isAuthenticated {
                     // 認証OK
-                    if authManager.kybStatus == .approved {
+                    if authManager.shouldShowCardCreation {
+                        // カード作成画面を表示
+                        KYBCardCreationView()
+                            .environmentObject(authManager)
+                    } else if authManager.kybStatus == .approved {
                         // KYB承認済み → ホーム画面へ遷移
                         ContentView()
                             .environmentObject(authManager)
@@ -48,6 +62,10 @@ struct btcp_mobile_appApp: App {
                     EmailInputView()
                         .environmentObject(authManager)
                 }
+            }
+            .task {
+                // アプリ起動時に認証状態とKYBステータスをチェック
+                await authManager.checkAuthState()
             }
             // onOpenURLはiOSがアプリにURLを渡したときに実行されるモディファイア
             .onOpenURL { url in
@@ -148,6 +166,8 @@ struct btcp_mobile_appApp: App {
                                     // 認証状態を更新
                                     authManager.isAuthenticated = true
                                     print("✨ 認証状態を更新しました")
+
+                                    await PushNotificationManager.shared.uploadFCMTokenIfNeeded()
                                 } catch {
                                     print("❌ Web3Auth/Firestore エラー: \(error.localizedDescription)")
                                     // Web3Auth接続に失敗してもFirebase認証は成功しているので、一旦認証状態をtrueにする

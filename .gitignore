@@ -1,0 +1,57 @@
+# Xcode
+*.xcuserstate
+*.xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+DerivedData/
+build/
+*.moved-aside
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
+# Swift Package Manager
+.build/
+Packages/
+*.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Secrets - 機密情報を含むファイルは絶対にコミットしない
+Secrets.xcconfig
+*/Secrets.xcconfig
+*.secrets
+.env
+.env.*
+
+# Firebase (機密情報が含まれる場合)
+# GoogleService-Info.plist
+
+# Generated files
+repomix-output.xml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp

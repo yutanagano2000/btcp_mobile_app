@@ -1,12 +1,23 @@
 /// Supabaseとの接続定義
-// 認証情報を格納する
+/// 認証情報は環境変数から取得
 struct SupabaseConfig {
-    static let supabaseURL = "https://hcomrbvcvcymdyxcfiyr.supabase.co"
+    /// Supabase URL（環境変数から取得）
+    static var supabaseURL: String {
+        AppEnvironment.supabaseURL
+    }
 
-    static let supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhjb21yYnZjdmN5bWR5eGNmaXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NTE2MDIsImV4cCI6MjA4MDIyNzYwMn0.PYd8dD3WJVFA6E6GlsUrjWds4OyZ1OVnrOsbepIRKoQ"
-    
-    // Supabaseとの連携が重かったのでテスト用アドレスとパスワードを定義
-    static let testEmail = "test@example.com"
-    static let testPassword = "test1234"
+    /// Supabase Anonymous Key（環境変数から取得）
+    static var supabaseAnonKey: String {
+        AppEnvironment.supabaseAnonKey
+    }
+
+    /// テスト用メールアドレス（環境変数から取得、オプショナル）
+    static var testEmail: String? {
+        AppEnvironment.testEmail
+    }
+
+    /// テスト用パスワード（環境変数から取得、オプショナル）
+    static var testPassword: String? {
+        AppEnvironment.testPassword
+    }
 }
-

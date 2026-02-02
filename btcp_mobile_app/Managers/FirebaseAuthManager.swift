@@ -7,7 +7,7 @@ final class FirebaseAuthManager {
 
     func sendSignInLink(email: String) {
         let settings = ActionCodeSettings()
-        settings.url = URL(string: "https://btcp-3004a.firebaseapp.com")
+        settings.url = URL(string: "https://btcp-swift.firebaseapp.com")
         settings.handleCodeInApp = true
         settings.setIOSBundleID(Bundle.main.bundleIdentifier!)
 
